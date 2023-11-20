@@ -1,0 +1,4 @@
+name: happi
+channels:
+  - defaults
+prefix: /home/wata/miniconda3/envs/happi
