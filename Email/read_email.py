@@ -1,26 +1,30 @@
 from simplegmail import Gmail
 import json
 
-gmail = Gmail()
 
-mails = gmail.get_messages() # Get those in normal inbox
-mails.extend(gmail.get_spam_messages())
+def read_email():
+    gmail = Gmail()
 
-message_list = []
-for mail in mails:
-    message_dict = {
-        "To: ": mail.recipient,
-        "From: ": mail.sender,
-        "Subject: ": mail.subject,
-        "Date: ": mail.date,
-        "Preview: ": mail.snippet,
-        "Message Body: ": mail.plain
-    }
-    message_list.append(message_dict)
+    mails = gmail.get_messages() # Get those in normal inbox
+    mails.extend(gmail.get_spam_messages())
 
-# Specify the file path
-file_path = 'output.json'
+    message_list = []
+    for mail in mails:
+        message_dict = {
+            "To: ": mail.recipient,
+            "From: ": mail.sender,
+            "Subject: ": mail.subject,
+            "Date: ": mail.date,
+            "Preview: ": mail.snippet,
+            "Message Body: ": mail.plain
+        }
+        message_list.append(message_dict)
 
-# Write the list to the JSON file
-with open(file_path, 'w') as json_file:
-    json.dump(message_list, json_file)
+    # Specify the file path
+    file_path = 'output.json'
+
+    # Write the list to the JSON file
+    with open(file_path, 'w') as json_file:
+        json.dump(message_list, json_file)
+
+    return message_list
