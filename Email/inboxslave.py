@@ -82,3 +82,37 @@ if choices and choices[0].message and choices[0].message.function_call:
 #   "summary": "AI Research Seminar (AIRS) Series"
 # }
 
+
+#--- Created function to allow multiple emails to be parsed ---#
+def gpt_prompt(emails):
+
+    email_outputs = []
+
+    for email in emails:
+        prompt = f"please extract the important information from this email{email}"
+        messages = [{"role":"user","content":prompt}]
+
+        response = client.chat.completions.create(
+            model = "gpt-3.5-turbo-0613",
+            messages=messages,
+            functions=extract_function,
+            function_call="auto"
+        )
+
+        print(response)
+
+
+
+        ##extracting json output of function call👇
+        choices = response.choices
+
+        # Assuming there's at least one choice and it contains a function call
+        if choices and choices[0].message and choices[0].message.function_call:
+            function_call = choices[0].message.function_call
+
+            # Now you have the FunctionCall object
+            function_name = function_call.name
+            function_arguments = function_call.arguments
+            print(function_arguments)
+
+            email_outputs.append(function_arguments)
