@@ -1,6 +1,16 @@
 import pandas as pd
 from read_email import read_email
 from inboxslave import gpt_prompt
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+
+
+load_dotenv()
+api_key= os.getenv("OPENAI_APIKEY")
+client = OpenAI(api_key=api_key)
+
 
 emails = read_email()
 
