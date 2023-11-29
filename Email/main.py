@@ -4,6 +4,7 @@ from inboxslave import gpt_prompt
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import json
 
 
 
@@ -15,7 +16,7 @@ client = OpenAI(api_key=api_key)
 emails = read_email()
 
 #--- For demo, can get weiren to forward 5 emails he want to see being summarised ---#
-email_outputs = gpt_prompt(read_email[:4])
+email_outputs = gpt_prompt(emails[:5])
 
 # email_outputs = [
 #     {"date": "7th Dec 2023, 10am", "summary": "AI Research Seminar (AIRS) Series"},
@@ -24,7 +25,8 @@ email_outputs = gpt_prompt(read_email[:4])
 
 
 # Output to excel
-df = pd.DataFrame(email_outputs)
+data = [json.loads(s) for s in email_outputs]
+df = pd.DataFrame(data)
 excel_filename = "output.xlsx"
 df.to_excel(excel_filename, index=False)
 
