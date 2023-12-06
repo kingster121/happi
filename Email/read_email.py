@@ -23,8 +23,4 @@ def read_email():
     # Specify the file path
     file_path = 'output.json'
 
-    # Write the list to the JSON file
-    with open(file_path, 'w') as json_file:
-        json.dump(message_list, json_file)
-
     return message_list
