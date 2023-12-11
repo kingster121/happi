@@ -24,3 +24,7 @@ def read_email():
     file_path = 'output.json'
 
     return message_list
+
+if __name__ == "__main__":
+    message_list = read_email()
+    print(message_list)

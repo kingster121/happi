@@ -4,16 +4,33 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 TOKEN = '6929876322:AAGrtdUZ6g9hvuj4rbBAKUPThBgpZB_EPAA'
 BOT_USERNAME = '@sstarter_bot'
 
+### --- Test Data --- ###
+email_outputs = [
+    {"date": "7th Dec 2023, 10am", "summary": "AI Research Seminar (AIRS) Series"},
+    {"date": "8th Dec 2023, 12pm", "summary": "Good food!"},
+    {"date": "9th Dec 2023, 10am", "summary": "AI Research Seminar (AIRS) Series"},
+    {"date": "10th Dec 2023, 12pm", "summary": "Good food!"},
+    {"date": "11th Dec 2023, 10am", "summary": "AI Research Seminar (AIRS) Series"},
+    {"date": "12th Dec 2023, 12pm", "summary": "Good food!"}
+]
 
-# Commands
+### --- Commands --- ###
+async def retrieve_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Sets it to retrieve the last 5 emails summary"""
+    text = ""
+    for index in range(5):
+        date = email_outputs[index]["date"]
+        summary = email_outputs[index]["summary"]
+        text += f"{date}: {summary}\n"
+
+    print(text)
+    await update.message.reply_text(text)
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Hello! Thanks for chatting with me! Bare with me as I am still learning!")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Type something so that I can respond!")
-
-async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("This is a custom command")
 
 
 # Responses
@@ -60,7 +77,7 @@ if __name__ == "__main__":
     # Commands
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("custom", custom_command))
+    app.add_handler(CommandHandler("retrieve", retrieve_command))
 
     # Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
